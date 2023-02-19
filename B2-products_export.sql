@@ -8,8 +8,6 @@ SELECT
   IF(p.tobuy = 0 AND p.tosell = 0,FALSE,TRUE) AS Active,
   p.tosell AS "Can be Sold",
   p.tobuy AS "Can be Purchased",
-  -- IFNULL(p.customcode,"") AS "HScode US",
-  -- IFNULL(country.code,"") AS "Country of Origin",
   IFNULL(p.cost_price,0.0) AS Cost,
   -- "EUR" AS "Cost Currency",
   -- pp.price_level AS Level,
@@ -30,14 +28,16 @@ SELECT
   IFNULL(p.weight,0.0) AS Weight,
   -- "kg" AS "Weight unit of measure label",
   -- IFNULL(DATE_FORMAT(date(p.datec),'%Y-%m-%d'),"2019-07-01") AS "date",
-  IFNULL(p.description,"") AS Description,
-  -- IFNULL(p.note,"") AS Comment
+  IFNULL(REPLACE(REPLACE(p.description,"<p>",""),"</p>",""),"") AS "Sales Description",
+  IFNULL (IF(p.customcode="8529 90 65","8529 90 65 00",p.customcode),"8529 90 65 00") AS "HS Code",
+  IFNULL (country.code,"BE") AS "Origin of Goods/Country Code"
+
 FROM llx_product AS p
 LEFT JOIN llx_product_price AS pp ON pp.fk_product = p.rowid
 LEFT JOIN llx_categorie_product AS cp ON cp.fk_product = p.rowid
 LEFT JOIN llx_categorie AS c ON c.rowid = cp.fk_categorie
 LEFT JOIN llx_c_country AS country ON country.rowid = p.fk_country
-WHERE 1 -- EUR-2023 prices
--- WHERE p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- Limited
+-- WHERE 1 -- FULL EXPORT
+WHERE p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- LIGHT EXPORT
 GROUP BY p.rowid
 HAVING MAX(pp.date_price)
