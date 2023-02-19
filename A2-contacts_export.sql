@@ -54,8 +54,8 @@ FROM
     WHERE 1 = 1
     GROUP BY catsoc.fk_soc
   ) AS categories ON categories.socid = societe.rowid
--- WHERE 1 = 1  -- FULL REQUEST
-  WHERE societe.rowid IN(473,246,843,345,624)  -- SIMPIFIED REQUEST
+  WHERE 1 = 1  -- FULL REQUEST
+  -- WHERE societe.rowid IN(473,246,843,345,624)  -- SIMPIFIED REQUEST
 UNION
 SELECT
   contact.rowid + 1000 AS "External ID", -- unique id for socpeople and thirdparty
@@ -106,5 +106,5 @@ FROM
       WHERE 1 = 1
       GROUP BY catcont.fk_socpeople
   ) AS categories ON categories.contactid = contact.rowid
-  -- WHERE 1 = 1  -- FULL REQUEST
-  WHERE societe.rowid IN(473,246,843,345,624)  -- SIMPIFIED REQUEST
+  WHERE 1 = 1  -- FULL REQUEST
+  -- WHERE societe.rowid IN(473,246,843,345,624)  -- SIMPIFIED REQUEST
