@@ -37,7 +37,7 @@ LEFT JOIN llx_product_price AS pp ON pp.fk_product = p.rowid
 LEFT JOIN llx_categorie_product AS cp ON cp.fk_product = p.rowid
 LEFT JOIN llx_categorie AS c ON c.rowid = cp.fk_categorie
 LEFT JOIN llx_c_country AS country ON country.rowid = p.fk_country
--- WHERE 1 -- EUR-2023 prices
-WHERE p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- Limited
+WHERE 1 -- EUR-2023 prices
+-- WHERE p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- Limited
 GROUP BY p.rowid
 HAVING MAX(pp.date_price)
