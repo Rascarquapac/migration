@@ -2,6 +2,8 @@
   (SELECT "All" AS "Parent Category",  "Services" AS Name)
 UNION
   (SELECT "All" AS "Parent Category",  "Obsolete" AS Name)
+UNION
+  (SELECT "All" AS "Parent Category",  "Consumable" AS Name)
 UNION SELECT
   IF(c.rowid IN(194,195,196),"All / Saleable","All / Consumable") AS "Parent Category",
   c.label AS Name
