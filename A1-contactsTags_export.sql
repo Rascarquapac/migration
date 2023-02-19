@@ -1,3 +1,6 @@
+ /* 
+ Generating  essential Tags for Odoo contacts
+ */
   SELECT
     CASE
       WHEN cat_parent.rowid = 39  THEN 4
