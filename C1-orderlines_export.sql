@@ -20,9 +20,9 @@ SELECT
   s.nom AS "Customer",
   cd.multicurrency_code AS "Currency",
   -- Dates
-  c.date_commande AS "Order Date",
-  c.date_livraison AS "Delivery Date",
-  c.date_valid AS "Effective Date",
+  IFNULL(DATE_FORMAT(date(c.date_commande),'%Y-%m-%d'),"2019-07-01") AS "Order Date",
+  IFNULL(DATE_FORMAT(date(c.date_livraison),'%Y-%m-%d'),"2019-07-01") AS "Delivery Date",
+  IFNULL(DATE_FORMAT(date(c.date_valid),'%Y-%m-%d'),"2019-07-01") AS "Effective Date",
   -- Total Amounts
   c.multicurrency_total_ht AS Total, -- To be checked
   -- not used c.total_ht AS  Total,
