@@ -11,8 +11,8 @@
   FROM
     llx_product_price AS pp
     LEFT JOIN llx_product AS p ON p.rowid = pp.fk_product
-    -- WHERE pp.price_level = 3
-    WHERE pp.price_level = 3 AND p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- Limited
+    WHERE pp.price_level = 3
+    -- WHERE pp.price_level = 3 AND p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- Limited
 
   GROUP BY p.rowid
   HAVING MAX(pp.date_price)
@@ -32,7 +32,7 @@ UNION
   FROM
     llx_product_price AS pp
     LEFT JOIN llx_product AS p ON p.rowid = pp.fk_product
-  WHERE pp.price_level = 1 -- 1 for test / 4 normally
-  WHERE pp.price_level = 1 AND p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- Limited
+  WHERE pp.price_level = 4 -- 1 for test / 4 normally
+  -- WHERE pp.price_level = 4 AND p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- Limited
   GROUP BY p.rowid
   HAVING MAX(pp.date_price)
