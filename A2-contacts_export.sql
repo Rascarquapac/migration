@@ -1,6 +1,6 @@
 -- id  	name	is_company	parent_id	vat	website	email	customer_rank	supplier_rank	title/shortcut	function	category_id	phone	mobile
 -- state_id	country_code	city	zip	street	date	create_date	comment
-
+CREATE OR REPLACE VIEW odooContacts AS 
 SELECT
   societe.rowid AS "External ID",
   societe.nom AS "Name",
@@ -63,7 +63,7 @@ SELECT
   "FALSE" AS "Is a Company",
   societe.nom AS "Related Company",
   "" AS "Tax ID",
-  "" AS "Website Link",
+  IF(ISNULL(contact.email),"",IFNULL(societe.url,CONCAT("www.",SUBSTRING_INDEX(contact.email,"@",-1)))) AS "Website Link",
   IFNULL(contact.email,"") AS "Email",
   0 AS "Customer Rank",
   0 AS "Supplier Rank",
@@ -106,5 +106,6 @@ FROM
       WHERE 1 = 1
       GROUP BY catcont.fk_socpeople
   ) AS categories ON categories.contactid = contact.rowid
-  WHERE 1 = 1  -- FULL EXPORT
-  -- WHERE societe.rowid IN(473,246,843,345,624)  -- LIGHT EXPORT
+  WHERE 1 = 1 ; -- FULL EXPORT
+  -- WHERE societe.rowid IN(473,246,843,345,624);  -- LIGHT EXPORT
+SELECT * FROM odooContacts;

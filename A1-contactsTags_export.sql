@@ -1,6 +1,7 @@
  /* 
  Generating  essential Tags for Odoo contacts
  */
+ CREATE OR REPLACE VIEW odooContactsTags AS 
   SELECT
     CASE
       WHEN cat_parent.rowid = 39  THEN 4
@@ -60,8 +61,9 @@
     FROM  llx_categorie AS cat
       LEFT JOIN llx_categorie AS cat_parent ON cat_parent.fk_parent = 0
       LEFT JOIN llx_categorie AS cat_child ON cat_child.fk_parent = cat_parent.rowid
-    WHERE cat.type = 4 AND cat_parent.rowid IN (215,214) -- categorie type is people (4)
+    WHERE cat.type = 4 AND cat_parent.rowid IN (215,214); -- categorie type is people (4)
 
+SELECT * FROM odooContactsTags
   /*
   SELECT * FROM tempcat
   INTO OUTFILE 'contactsTags.csv'

@@ -1,4 +1,5 @@
 /* Generate Odoo Price Lists from Dolibarr Pricelist exluding prices not in Dolibarr price list */
+CREATE OR REPLACE VIEW odooPricelists AS 
 (SELECT
     "pl_msrp_usd" AS "External ID",
     "MSRP USD" AS "Pricelist Name",
@@ -35,4 +36,5 @@ UNION
   WHERE pp.price_level = 4 -- FULL EXPORT
   -- WHERE pp.price_level = 4 AND p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- LIGHT EXPORT
   GROUP BY p.rowid
-  HAVING MAX(pp.date_price)
+  HAVING MAX(pp.date_price);
+  SELECT * FROM odooPricelists;

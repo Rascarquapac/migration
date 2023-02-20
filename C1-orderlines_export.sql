@@ -13,6 +13,7 @@ Order Lines/Order Reference Order Lines/Description
 Order Lines/Quantity Order Lines/Unit Price	Order Lines/Cost Order Lines/Subtotal
 To Invoice	Order Lines/Quantity	Order Lines/Qty To Deliver
 */
+CREATE OR REPLACE VIEW odooOrders AS 
 SELECT
   /* Order fields */
   cd.rowid AS "External ID",
@@ -58,4 +59,5 @@ FROM
   LEFT JOIN llx_societe AS s ON s.rowid = c.fk_soc
   LEFT JOIN llx_product AS p ON p.rowid = cd.fk_product
 
-WHERE 1
+WHERE 1;
+SELECT * FROM odooOrders;
