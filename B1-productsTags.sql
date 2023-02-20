@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW odooProductsTags AS 
+CREATE OR REPLACE VIEW b1_products_tags AS 
   (SELECT "All" AS "Parent Category",  "Services" AS Name)
 UNION
   (SELECT "All" AS "Parent Category",  "Obsolete" AS Name)
@@ -10,4 +10,4 @@ UNION SELECT
   FROM  llx_categorie AS c
   WHERE c.type = 0 AND c.fk_parent IN (192) AND c.rowid IN (194,195,196,197,198,199); -- categorie type is product (0)
 
-SELECT * FROM odooProductsTags
+SELECT * FROM b1_products_tags

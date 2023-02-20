@@ -1,6 +1,6 @@
 -- id  	name	is_company	parent_id	vat	website	email	customer_rank	supplier_rank	title/shortcut	function	category_id	phone	mobile
 -- state_id	country_code	city	zip	street	date	create_date	comment
-CREATE OR REPLACE VIEW odooContacts AS 
+CREATE OR REPLACE VIEW a2_contacts AS 
 SELECT
   societe.rowid AS "External ID",
   societe.nom AS "Name",
@@ -108,4 +108,4 @@ FROM
   ) AS categories ON categories.contactid = contact.rowid
   WHERE 1 = 1 ; -- FULL EXPORT
   -- WHERE societe.rowid IN(473,246,843,345,624);  -- LIGHT EXPORT
-SELECT * FROM odooContacts;
+SELECT * FROM a2_contacts;

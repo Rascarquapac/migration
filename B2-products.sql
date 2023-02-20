@@ -1,7 +1,7 @@
 /* Generate Products for Odoo
   Use llx_product_price price with newer price when price_level 3 is defined, llx_product.price otherwise
 */
-CREATE OR REPLACE VIEW odooProducts AS 
+CREATE OR REPLACE VIEW b2_products AS 
 SELECT
   p.rowid AS "External ID",
   p.label AS "Internal Reference",
@@ -38,8 +38,8 @@ LEFT JOIN llx_product_price AS pp ON pp.fk_product = p.rowid
 LEFT JOIN llx_categorie_product AS cp ON cp.fk_product = p.rowid
 LEFT JOIN llx_categorie AS c ON c.rowid = cp.fk_categorie
 LEFT JOIN llx_c_country AS country ON country.rowid = p.fk_country
--- WHERE 1 -- FULL EXPORT
-WHERE p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- LIGHT EXPORT
+WHERE 1 -- FULL EXPORT
+-- WHERE p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- LIGHT EXPORT
 GROUP BY p.rowid
 HAVING MAX(pp.date_price);
-SELECT * FROM odooProducts;
+SELECT * FROM b2_products;
