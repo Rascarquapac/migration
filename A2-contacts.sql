@@ -2,7 +2,7 @@
 -- state_id	country_code	city	zip	street	date	create_date	comment
 CREATE OR REPLACE VIEW a2_contacts AS 
 SELECT
-  societe.rowid AS "External ID",
+  CONCAT("soc",LPAD(societe.rowid,4,0)) AS "External ID",
   societe.nom AS "Name",
   "TRUE" AS "Is a Company",
   "" AS "Related Company",
@@ -58,7 +58,7 @@ FROM
   -- WHERE societe.rowid IN(473,246,843,345,624)  -- SIMPIFIED REQUEST
 UNION
 SELECT
-  contact.rowid + 1000 AS "External ID", -- unique id for socpeople and thirdparty
+  CONCAT("peo",LPAD(contact.rowid,4,0)) AS "External ID",
   IFNULL(CONCAT (contact.firstname," ",contact.lastname),"") AS "Name",
   "FALSE" AS "Is a Company",
   societe.nom AS "Related Company",
