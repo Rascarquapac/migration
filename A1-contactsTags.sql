@@ -44,7 +44,7 @@
       WHEN cat_parent.rowid = 157 THEN CONCAT("CompBuyer",cat_child.label)
       WHEN cat_parent.rowid = 209 THEN CONCAT("CompSpec",cat_child.label)
     END AS "Display Name",
-    cat_child.label AS "Tag Name",
+    IF(SUBSTRING(cat_child.label,2,1)="-",SUBSTRING(cat_child.label,3),cat_child.label) AS "Tag Name",
     cat_parent.label AS "Parent Category"
     FROM  llx_categorie AS cat
       LEFT JOIN llx_categorie AS cat_parent ON cat_parent.fk_parent = 0
@@ -62,7 +62,7 @@
       WHEN cat_parent.rowid = 214  THEN CONCAT("IndPosi",cat_child.label)
       WHEN cat_parent.rowid = 215  THEN CONCAT("IndJour",cat_child.label)
     END AS "Display Name",
-      cat_child.label  AS "Tag Name",
+    IF(SUBSTRING(cat_child.label,2,1)="-",SUBSTRING(cat_child.label,3),cat_child.label) AS "Tag Name",
       cat_parent.label AS "Parent Category"
     FROM  llx_categorie AS cat
       LEFT JOIN llx_categorie AS cat_parent ON cat_parent.fk_parent = 0
