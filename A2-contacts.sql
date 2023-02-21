@@ -2,7 +2,7 @@
 -- state_id	country_code	city	zip	street	date	create_date	comment
 CREATE OR REPLACE VIEW a2_contacts AS 
 SELECT
-  CONCAT("company",LPAD(societe.rowid,4,0)) AS "External ID",
+  CONCAT("compan",LPAD(societe.rowid,4,0)) AS "External ID",
   societe.nom AS "Name",
   "TRUE" AS "Is a Company",
   "" AS "Related Company",
