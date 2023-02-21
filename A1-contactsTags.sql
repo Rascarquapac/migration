@@ -4,7 +4,7 @@
  CREATE OR REPLACE VIEW a1_contacts_tags AS
   -- Company + people tags : 1st level ofh hierarchy
   SELECT
-    CONCAT("catcon",LPAD(cat.rowid,4,0)) AS "External ID", 
+    CONCAT("catcon",LPAD(cat_parent.rowid,4,0)) AS "External ID", 
     CASE
       WHEN cat_parent.rowid = 39  THEN 4
       WHEN cat_parent.rowid = 48  THEN 11
@@ -30,7 +30,7 @@
     WHERE cat.type IN (2,4) AND cat_parent.rowid IN (39,48,157,209,214,215)
   --  Company tags : 2nd level
   UNION SELECT
-    CONCAT("catcon",LPAD(cat.rowid,3,0)) AS "External ID", 
+    CONCAT("catcon",LPAD(cat_child.rowid,4,0)) AS "External ID", 
     CASE
       WHEN cat_parent.rowid = 39  THEN 4
       WHEN cat_parent.rowid = 48  THEN 11
@@ -49,10 +49,10 @@
     FROM  llx_categorie AS cat
       LEFT JOIN llx_categorie AS cat_parent ON cat_parent.fk_parent = 0
       LEFT JOIN llx_categorie AS cat_child ON cat_child.fk_parent = cat_parent.rowid
-    WHERE cat.type = 2 AND cat_parent.rowid IN (39,48,157,209) -- categorie type is customer (2)
+    WHERE cat.type = 2 AND cat_parent.rowid IN (39,48,157,209) AND cat_child.label NOT IN ("Unknown","Others") -- categorie type is customer (2)
   -- People tags : 2nd level
   UNION SELECT
-    CONCAT("tagcon",LPAD(cat.rowid,3,0)) AS "External ID", 
+    CONCAT("tagcon",LPAD(cat_child.rowid,4,0)) AS "External ID", 
     CASE
       WHEN cat_parent.rowid = 214  THEN 2
       WHEN cat_parent.rowid = 215  THEN 3
@@ -67,7 +67,7 @@
     FROM  llx_categorie AS cat
       LEFT JOIN llx_categorie AS cat_parent ON cat_parent.fk_parent = 0
       LEFT JOIN llx_categorie AS cat_child ON cat_child.fk_parent = cat_parent.rowid
-    WHERE cat.type = 4 AND cat_parent.rowid IN (215,214); -- categorie type is people (4)
+    WHERE cat.type = 4 AND cat_parent.rowid IN (215,214) AND cat_child.label NOT IN ("Unknown","Others"); -- categorie type is people (4)
 
 SELECT * FROM a1_contacts_tags
   /*
