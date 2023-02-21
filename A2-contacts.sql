@@ -2,7 +2,7 @@
 -- state_id	country_code	city	zip	street	date	create_date	comment
 CREATE OR REPLACE VIEW a2_contacts AS 
 SELECT
-  CONCAT("soc",LPAD(societe.rowid,4,0)) AS "External ID",
+  CONCAT("company",LPAD(societe.rowid,4,0)) AS "External ID",
   societe.nom AS "Name",
   "TRUE" AS "Is a Company",
   "" AS "Related Company",
@@ -38,7 +38,7 @@ FROM
   LEFT JOIN (
     SELECT
       catsoc.fk_soc AS socid,
-      GROUP_CONCAT(CONCAT("Business / ", SUBSTR(cat_biz.label,1)) SEPARATOR ',')  AS business,
+      IF(GROUP_CONCAT(CONCAT("Business / ", SUBSTR(cat_biz.label,1)) SEPARATOR ',')  AS business,
       GROUP_CONCAT(CONCAT("Size / ", cat_size.label) SEPARATOR ',')               AS size,
       GROUP_CONCAT(CONCAT("Buyer / ", SUBSTR(cat_buy.label,1)) SEPARATOR ',')     AS buyer,
       GROUP_CONCAT(CONCAT("Specificity / ", cat_spec.label) SEPARATOR ',')        AS specificity
@@ -58,7 +58,7 @@ FROM
   -- WHERE societe.rowid IN(473,246,843,345,624)  -- SIMPIFIED REQUEST
 UNION
 SELECT
-  CONCAT("peo",LPAD(contact.rowid,4,0)) AS "External ID",
+  CONCAT("people",LPAD(contact.rowid,4,0)) AS "External ID",
   IFNULL(CONCAT (contact.firstname," ",contact.lastname),"") AS "Name",
   "FALSE" AS "Is a Company",
   societe.nom AS "Related Company",

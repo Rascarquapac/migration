@@ -3,7 +3,7 @@
 */
 CREATE OR REPLACE VIEW b2_products AS 
 SELECT
-  CONCAT("pro",LPAD(p.rowid,4,0)) AS "External ID",
+  CONCAT("produc",LPAD(p.rowid,4,0)) AS "External ID",
   p.label AS "Internal Reference",
   p.ref AS "Name",
   IF(p.tobuy = 0 AND p.tosell = 0,FALSE,TRUE) AS Active,

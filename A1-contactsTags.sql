@@ -4,7 +4,7 @@
  CREATE OR REPLACE VIEW a1_contacts_tags AS
   -- Company + people tags : 1st level ofh hierarchy
   SELECT
-    CONCAT("tagcont",LPAD(cat.rowid,3,0)) AS "External ID", 
+    CONCAT("catcon",LPAD(cat.rowid,4,0)) AS "External ID", 
     CASE
       WHEN cat_parent.rowid = 39  THEN 4
       WHEN cat_parent.rowid = 48  THEN 11
@@ -30,7 +30,7 @@
     WHERE cat.type IN (2,4) AND cat_parent.rowid IN (39,48,157,209,214,215)
   --  Company tags : 2nd level
   UNION SELECT
-    CONCAT("tagcont",LPAD(cat.rowid,3,0)) AS "External ID", 
+    CONCAT("catcon",LPAD(cat.rowid,3,0)) AS "External ID", 
     CASE
       WHEN cat_parent.rowid = 39  THEN 4
       WHEN cat_parent.rowid = 48  THEN 11
@@ -52,7 +52,7 @@
     WHERE cat.type = 2 AND cat_parent.rowid IN (39,48,157,209) -- categorie type is customer (2)
   -- People tags : 2nd level
   UNION SELECT
-    CONCAT("tagcont",LPAD(cat.rowid,3,0)) AS "External ID", 
+    CONCAT("tagcon",LPAD(cat.rowid,3,0)) AS "External ID", 
     CASE
       WHEN cat_parent.rowid = 214  THEN 2
       WHEN cat_parent.rowid = 215  THEN 3
@@ -71,8 +71,8 @@
 
 SELECT * FROM a1_contacts_tags
   /*
-  SELECT * FROM tempcat
-  INTO OUTFILE 'contactsTags.csv'
+  SELECT * FROM a1_contacts_tags
+  INTO OUTFILE 'a1_contacts_tags.csv'
   FIELDS ENCLOSED BY '"'
   TERMINATED BY ';'
   ESCAPED BY '"'
