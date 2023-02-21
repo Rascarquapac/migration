@@ -16,7 +16,7 @@ To Invoice	Order Lines/Quantity	Order Lines/Qty To Deliver
 CREATE OR REPLACE VIEW c1_orders AS 
 SELECT
   /* Order fields */
-  cd.rowid AS "External ID",
+  CONCAT("orders",LPAD(cd.rowid,4,0)) AS "External ID",
   c.ref AS "Order Reference",
   s.nom AS "Customer",
   cd.multicurrency_code AS "Currency",

@@ -24,7 +24,7 @@ SELECT
   IFNULL(societe.phone,"") AS "Phone",
   "" AS "Mobile",
   IFNULL(country.code,"") AS "Country",
-  IFNULL(state.nom,"") AS "State",
+  IF(country.code IN ("US","CA"),IFNULL(state.nom,""),"") AS "State",
   IFNULL(societe.zip,"") AS "Zip",
   IFNULL(societe.town,"") AS "City",
   IFNULL(societe.address,"") AS "Street",
@@ -38,7 +38,7 @@ FROM
   LEFT JOIN (
     SELECT
       catsoc.fk_soc AS socid,
-      IF(GROUP_CONCAT(CONCAT("Business / ", SUBSTR(cat_biz.label,1)) SEPARATOR ',')  AS business,
+      GROUP_CONCAT(CONCAT("Business / ", SUBSTR(cat_biz.label,1)) SEPARATOR ',') AS business,
       GROUP_CONCAT(CONCAT("Size / ", cat_size.label) SEPARATOR ',')               AS size,
       GROUP_CONCAT(CONCAT("Buyer / ", SUBSTR(cat_buy.label,1)) SEPARATOR ',')     AS buyer,
       GROUP_CONCAT(CONCAT("Specificity / ", cat_spec.label) SEPARATOR ',')        AS specificity
@@ -81,7 +81,7 @@ SELECT
   IFNULL(contact.phone_perso,IFNULL(contact.phone,""))AS "Phone",
   IFNULL(contact.phone_mobile,"") AS "Mobile",
   IFNULL(country.code,"") AS "Country",
-  IFNULL(state.nom,"") AS "State",
+  IF(country.code IN ("US","CA"),IFNULL(state.nom,""),"") AS "State",
   IFNULL(societe.zip,"") AS "Zip",
   IFNULL(societe.town,"") AS "City",
   IFNULL(societe.address,"") AS "Street",
