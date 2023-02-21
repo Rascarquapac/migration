@@ -13,14 +13,16 @@ SELECT
   societe.fournisseur AS "Supplier Rank",
   "" AS "Title",
   "" AS "Job Position",
-  TRIM(TRAILING ',' FROM
-    CONCAT(
-      IFNULL(CONCAT(categories.business,","),""),
-      IFNULL(CONCAT(categories.buyer,","),""),
-      IFNULL(CONCAT(categories.specificity,","),""),
-      IFNULL(categories.size,""))
-    )
-      AS "Tags",
+  TRIM(BOTH ',' FROM
+    REPLACE(
+      CONCAT(
+        IFNULL(CONCAT(categories.business,","),""),
+        IFNULL(CONCAT(categories.buyer,","),""),
+        IFNULL(CONCAT(categories.specificity,","),""),
+        IFNULL(categories.size,"")
+        )
+      ,",,",",")
+    )  AS "Tags",
   IFNULL(societe.phone,"") AS "Phone",
   "" AS "Mobile",
   IFNULL(country.code,"") AS "Country",
@@ -38,9 +40,9 @@ FROM
   LEFT JOIN (
     SELECT
       catsoc.fk_soc AS socid,
-      GROUP_CONCAT(CONCAT("Business / ", SUBSTR(cat_biz.label,1)) SEPARATOR ',') AS business,
-      GROUP_CONCAT(CONCAT("Size / ", cat_size.label) SEPARATOR ',')               AS size,
-      GROUP_CONCAT(CONCAT("Buyer / ", SUBSTR(cat_buy.label,1)) SEPARATOR ',')     AS buyer,
+      GROUP_CONCAT(IF (cat_biz.label IN ("Unknown","Others"),"",CONCAT("Business / ", SUBSTR(cat_biz.label,3))) SEPARATOR ',') AS business,
+      GROUP_CONCAT(CONCAT("Size / ", cat_size.label) SEPARATOR ',')               AS size, 
+      GROUP_CONCAT(IF (cat_buy.label IN ("Unknown","Others"),"",CONCAT("Buyer / ", SUBSTR(cat_buy.label,3))) SEPARATOR ',')     AS buyer,
       GROUP_CONCAT(CONCAT("Specificity / ", cat_spec.label) SEPARATOR ',')        AS specificity
     FROM  llx_categorie_societe AS catsoc
       -- find business categorie : meta-categorie (parent) is 39, categorie type is customer (2)
@@ -72,12 +74,14 @@ SELECT
     WHEN contact.civility="MRS" THEN "Madam" WHEN contact.civility="MLLE" THEN "Miss" ELSE ""
     END AS "Title",
   IFNULL(contact.poste,"") AS "Job Position",
-  TRIM(TRAILING ',' FROM
-    CONCAT(
-      IFNULL(CONCAT(categories.journey,","),""),
-      IFNULL(categories.position,""))
-    )
-    AS "Tags",
+  TRIM(BOTH ',' FROM
+    REPLACE(
+      CONCAT(
+        IFNULL(CONCAT(SUBSTR(categories.journey,1),","),""),
+        IFNULL(SUBSTR(categories.position,1),"")
+        )
+      ,",,",",")
+  ) AS "Tags",
   IFNULL(contact.phone_perso,IFNULL(contact.phone,""))AS "Phone",
   IFNULL(contact.phone_mobile,"") AS "Mobile",
   IFNULL(country.code,"") AS "Country",
@@ -96,14 +100,14 @@ FROM
   LEFT JOIN(
     SELECT
       catcont.fk_socpeople AS contactid,
-      GROUP_CONCAT(CONCAT("Journey / ", cat_jney.label) SEPARATOR ',')  AS journey,
-      GROUP_CONCAT(CONCAT("Position / ", SUBSTR(cat_pos.label,1)) SEPARATOR ',')  AS position
+      GROUP_CONCAT(IF (cat_jney.label IN ("Unknown","Others"),"",CONCAT("Journey / ", SUBSTR(cat_jney.label,3))) SEPARATOR ',')  AS journey,
+      GROUP_CONCAT(IF (cat_pos.label  IN ("Unknown","Others"),"",CONCAT("Position / ", SUBSTR(cat_pos.label,3))) SEPARATOR ',')  AS position
       FROM  llx_categorie_contact AS catcont
         -- find journey categorie : meta-categorie (parent) is 39, categorie type is contact (4)
         LEFT JOIN llx_categorie AS cat_jney ON cat_jney.rowid = catcont.fk_categorie and cat_jney.fk_parent = 215  and cat_jney.type = 4
         -- find position categorie : meta-categorie (parent) is 214, categorie type is customer (4)
         LEFT JOIN llx_categorie AS cat_pos ON cat_pos.rowid = catcont.fk_categorie and cat_pos.fk_parent = 214  and cat_pos.type = 4
-      WHERE 1 = 1
+      WHERE 1 = 1 
       GROUP BY catcont.fk_socpeople
   ) AS categories ON categories.contactid = contact.rowid
   WHERE 1 = 1 ; -- FULL EXPORT
