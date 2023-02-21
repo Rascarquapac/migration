@@ -36,7 +36,7 @@ SELECT
     WHEN p.customcode="8529 90 65" THEN "8529 90 63 00"
     ELSE p.customcode
   END AS "HS Code",
-  IFNULL (country.code,"BE") AS "Origin of Goods/Country Code"
+  IFNULL (country.code,"BE") AS "Origin of Goods"
 
 FROM llx_product AS p
 LEFT JOIN llx_product_price AS pp ON pp.fk_product = p.rowid
