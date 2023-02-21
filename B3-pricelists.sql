@@ -4,7 +4,7 @@ CREATE OR REPLACE VIEW b3_pricelists AS
     "pl_msrp_usd" AS "External ID",
     "MSRP USD" AS "Pricelist Name",
     "Product" AS "Pricelist Items/Apply On",
-    CONCAT("[",p.ref,"] ",p.label) AS "Pricelist Items/Product",
+    CONCAT("[",p.label,"] ",p.ref) AS "Pricelist Items/Product",
     "Fixed Price" AS "Pricelist Items/Compute Price",
     MAX(pp.price) AS "Pricelist Items/Fixed Price",
     "EUR" AS "Currency",
@@ -24,7 +24,7 @@ UNION
     "pl_msrp_eur" AS "External ID",
     "MSRP EUR" AS "Pricelist Name",
     "Product" AS "Pricelist Items/Apply On",
-    CONCAT("[",p.ref,"] ",p.label) AS "Pricelist Items/Product",
+    CONCAT("[",p.label,"] ",p.ref) AS "Pricelist Items/Product",
     "Fixed Price" AS "Pricelist Items/Compute Price",
     MAX(pp.price * 1.2) AS "Pricelist Items/Fixed Price", -- when price_level = 1
     -- pp.price AS "Pricelist Items/Fixed Price",    -- when price_level = 4
