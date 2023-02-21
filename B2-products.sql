@@ -30,7 +30,12 @@ SELECT
   -- "kg" AS "Weight unit of measure label",
   -- IFNULL(DATE_FORMAT(date(p.datec),'%Y-%m-%d'),"2019-07-01") AS "date",
   IFNULL(REPLACE(REPLACE(p.description,"<p>",""),"</p>",""),"") AS "Sales Description",
-  IFNULL (IF(p.customcode="8529 90 65","8529 90 65 00",p.customcode),"8529 90 65 00") AS "HS Code",
+  CASE 
+    WHEN p.customcode="8529 90 63" THEN "8529 90 63 00"
+    WHEN p.customcode="8529 90 65 00" THEN "8529 90 63 00"
+    WHEN p.customcode="8529 90 65" THEN "8529 90 63 00"
+    ELSE p.customcode
+  END AS "HS Code",
   IFNULL (country.code,"BE") AS "Origin of Goods/Country Code"
 
 FROM llx_product AS p
