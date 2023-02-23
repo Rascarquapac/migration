@@ -1,5 +1,6 @@
 -- id  	name	is_company	parent_id	vat	website	email	customer_rank	supplier_rank	title/shortcut	function	category_id	phone	mobile
 -- state_id	country_code	city	zip	street	date	create_date	comment
+-- ??? property_account_position_id/name : "FISCAL POSITION" (TODO)
 CREATE OR REPLACE VIEW a2_contacts AS 
 SELECT
   CONCAT("compan",LPAD(societe.rowid,4,0)) AS "External ID",
