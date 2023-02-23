@@ -1,59 +1,55 @@
-/* Original Odoo export of orders
-Company	Currency	Customer	Delivery Date	Delivery Status	Effective Date	Invoice Status	Order Date	Order Reference	Status	Tags	Total	Untaxed Amount	Order Lines/Currency	Order Lines/Delivery Quantity	Order Lines/Description	Order Lines/Discount (%)	Order Lines/Display Name	Order Lines/ID	Order Lines/Order Reference	Order Lines/Unit Price	Order Lines/Total	Order Lines/Quantity	Cart Quantity
-*/
-/* Fields definition
-# order fields
-Order Reference
-Currency	Customer
-Order Date Delivery Date 	Effective Date
-Status   Invoice Status   Delivery Status
-Total	 Untaxed Amount
-# orderlines fields
-Order Lines/Order Reference Order Lines/Description	
-Order Lines/Quantity Order Lines/Unit Price	Order Lines/Cost Order Lines/Subtotal
-To Invoice	Order Lines/Quantity	Order Lines/Qty To Deliver
+/* Original Odoo EXIM (export for import) of orders
+-- Orders fields
+name                       : S00097	
+partner_id                 : 3G Wireless LLC
+date_order                 : 2023-01-09 09:54:51	
+commitment_date            : 2023-01-09 09:54:51
+pricelist_id/name          : USD Reseller
+fiscal_position_id/name	   : Régime Extra-Communautaire
+payment_term_id/name       : 30 Days 	
+-- Line orders fields
+order_line/name            : [FURN_6666] Acoustic Bloc Screens
+order_line                 : S00097 - [FURN_6666] Acoustic Bloc Screens
+order_line/discount        : 92.31	
+order_line/price_unit      : 10,400.00
+order_line/product_uom_qty : 1.00	
+order_line/is_expense	     : FALSE
 */
 CREATE OR REPLACE VIEW c1_orders AS 
 SELECT
   /* Order fields */
   -- CONCAT("orders",LPAD(cd.rowid,4,0)) AS "External ID",
-  c.ref AS "Order Reference",
-  s.nom AS "Customer",
-  c.multicurrency_code AS "Currency",
+  c.ref AS "name",
+  s.nom AS "partner_id",
   -- Dates
-  DATE_FORMAT(date(c.date_commande),'%Y-%m-%d') AS "Order Date",
-  DATE_FORMAT(date(c.date_livraison),'%Y-%m-%d') AS "Delivery Date",
-  -- Total Amounts
-  c.multicurrency_total_ht AS Total, -- To be checked
-  -- not used c.total_ht AS  Total,
-  c.multicurrency_total_ht AS  "Untaxed Amount",
-  c.multicurrency_tx AS "Currency Rate",
-  -- Order Status
-  IF (c.rowid IS NULL,NULL,"sales order") AS Status,
-  CASE
-    WHEN c.facture = 1 THEN "Fully Invoiced"
-    WHEN c.facture = 0 THEN "To Invoice"
-    ELSE  NULL
-  END AS "Invoice Status",
-  CASE
-    WHEN c.fk_statut = 3 THEN "Fully Delivered"
-    WHEN FALSE THEN "Partially Delivered"
+  DATE_FORMAT(date(c.date_commande),'%Y-%m-%d') AS "date_order",
+  DATE_FORMAT(date(c.date_livraison),'%Y-%m-%d') AS "commitment_date",
+  CASE 
+    WHEN s.remise_client = 0  THEN IF(country.code IN ("US","CA"),"USD MSRP","EUR MSRP") 
+    WHEN s.remise_client = 10 THEN IF(country.code IN ("US","CA"),"USD Major","EUR Major") 
+    WHEN s.remise_client > 10 THEN IF(country.code IN ("US","CA"),"USD Reseller","EUR Reseller") 
     ELSE NULL
-  END AS "Delivery Status" ,
-
+  END AS "pricelist_id/name",
+   CASE 
+    WHEN country.code = "BE" THEN  "Régime National"
+    WHEN country.code IN ("AT","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","EU") THEN "Régime Intra-Communautaire" 
+    ELSE IF(ISNULL(country.code),NULL,"Régime Extra-Communautaire") 
+  END AS "fiscal_position_id/name",
+  CASE 
+    WHEN s.cond_reglement = 19 THEN "45 Days"
+    WHEN s.cond_reglement = 13 THEN "Upfront"
+    WHEN s.cond_reglement = 2  THEN "30 Days"
+    ELSE IF(ISNULL(s.cond_reglement),NULL,"30 Days")
+  END AS "payment_term_id/name", 
   -- Order Lines
-  first_line.ref AS "Order Lines/Order Reference",
-  CONCAT("[",p.label,"] ",p.ref) AS "Order Lines/Description",
-  CONCAT(first_line.ref," - [",p.label,"] ",p.ref) AS "Order Lines/Display Name",
-  cd.multicurrency_code AS "Order Lines/Currency", 
-  cd.qty AS "Order Lines/Quantity",
-  cd.qty AS "Order Lines/Delivery Quantity",
-  cd.multicurrency_subprice AS "Order Lines/Unit Price",
-  cd.buy_price_ht AS "Order Lines/Cost",
-  cd.remise_percent AS "Order Lines/Discount (%)",
-  cd.multicurrency_total_ht AS "Order Lines/Subtotal"
+  CONCAT("[",p.label,"] ",p.ref) AS "order_line/name",
+  CONCAT(first_line.ref," - [",p.label,"] ",p.ref) AS "order_line",
+  cd.remise_percent AS "order_line/discount",
+  cd.qty AS "order_line/product_uom_qty",
+  cd.multicurrency_subprice AS "order_line/price_unit",
+  IF(ISNULL(cd.fk_product),"TRUE","FALSE") AS "order_line/is_expense"
 FROM 
--- Build an intermediate "first_line" table with the order id and the id of the first line of the order
+  -- Build an intermediate "first_line" table with the order id and the id of the first line of the order
   ( SELECT
 	    c.rowid AS orderId,
       c.ref   AS ref,
@@ -69,5 +65,6 @@ FROM
   LEFT JOIN llx_product     AS p ON p.rowid = cd.fk_product
   LEFT JOIN llx_commande    AS c ON first_line.firstLineId = cd.rowid AND c.rowid = first_line.orderId
   LEFT JOIN llx_societe     AS s ON s.rowid = c.fk_soc
+  LEFT JOIN llx_c_country   AS country ON country.rowid = s.fk_pays
 WHERE 1=1;
 SELECT * FROM c1_orders;
