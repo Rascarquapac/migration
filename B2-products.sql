@@ -9,6 +9,7 @@ SELECT
   IF(p.tobuy = 0 AND p.tosell = 0,FALSE,TRUE) AS Active,
   p.tosell AS "Can be Sold",
   p.tobuy AS "Can be Purchased",
+  p.note AS "description",
   IFNULL(p.cost_price,0.0) AS Cost,
   -- "EUR" AS "Cost Currency",
   -- pp.price_level AS Level,
