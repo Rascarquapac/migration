@@ -3,4 +3,6 @@
 1. How to create a one-time product/service in an order (product not in the products/service database) ? 
    - Is it an "expense" ?
    - How to add shipping costs in an order ?
+      - shipping costs can be calculated, you have to activate in "Inventory" : "Delivery Methods
+         Compute shipping costs"
 2. Where is the list of "fiscal_poitions" ?
