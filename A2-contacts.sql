@@ -8,6 +8,12 @@ SELECT
   "TRUE" AS "Is a Company",
   "" AS "Related Company",
   IFNULL(societe.tva_intra,"") AS "Tax ID",
+  CASE 
+    WHEN country.code = "BE" THEN  "Régime National"
+    WHEN country.code IN ("AT","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","EU") THEN "Régime Intra-Communautaire" 
+    ELSE IF(ISNULL(country.code),NULL,"Régime Extra-Communautaire") 
+  END AS "property_account_position_id", -- To be checked
+  property_account_position_id
   IFNULL(societe.url,"") AS "Website Link",
   IFNULL(societe.email,"") AS "Email",
   societe.client AS "Customer Rank",
@@ -27,7 +33,7 @@ SELECT
   IFNULL(societe.phone,"") AS "Phone",
   "" AS "Mobile",
   IFNULL(country.code,"") AS "Country",
-  IF(country.code IN ("US","CA"),IFNULL(state.nom,""),"") AS "State",
+  IF(country.code IN ("US","CA"),IFNULL(state.nom,""),"") AS "State", -- Suppressing States not understtod by Odoo
   IFNULL(societe.zip,"") AS "Zip",
   IFNULL(societe.town,"") AS "City",
   IFNULL(societe.address,"") AS "Street",
@@ -66,6 +72,7 @@ SELECT
   "FALSE" AS "Is a Company",
   societe.nom AS "Related Company",
   "" AS "Tax ID",
+  "" AS "property_account_position_id", -- To be checked
   IF(ISNULL(contact.email),"",IFNULL(societe.url,CONCAT("www.",SUBSTRING_INDEX(contact.email,"@",-1)))) AS "Website Link",
   IFNULL(contact.email,"") AS "Email",
   0 AS "Customer Rank",
