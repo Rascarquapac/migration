@@ -17,15 +17,17 @@ SELECT
   MAX(IF(pp.price_level = 3, pp.price, p.price)) AS "Sales Price",
   -- "EUR" AS Currency,
   IF(p.fk_product_type = 0,"Storable Product","Service") AS "Product Type",
-  GROUP_CONCAT(
-      DISTINCT
-      CASE
-        WHEN c.rowid = 193 THEN "All / Obsolete"
-        WHEN c.rowid IN (194,195,196) THEN CONCAT ("All / Saleable / ",c.label)
-        WHEN c.rowid IN (197,198,199) THEN CONCAT ("All / Consumable / ",c.label)
-        ELSE "All / Services"
-      END
-      SEPARATOR ',')
+  SUBSTRING_INDEX(
+    GROUP_CONCAT(
+        DISTINCT
+        CASE
+          WHEN c.rowid = 193 THEN "All / Obsolete"
+          WHEN c.rowid IN (194,195,196) THEN CONCAT ("All / Saleable / ",c.label)
+          WHEN c.rowid IN (197,198,199) THEN CONCAT ("All / Consumable / ",c.label)
+          ELSE "All / Services"
+        END
+        SEPARATOR ','),
+      ',',1)
       AS "Product Category",
   IF(p.tobatch = 1,"By Unique Serial Number","No Tracking") AS Tracking,
   IFNULL(p.weight,0.0) AS Weight,
