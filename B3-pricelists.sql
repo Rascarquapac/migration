@@ -1,8 +1,8 @@
 /* Generate Odoo Price Lists from Dolibarr Pricelist exluding prices not in Dolibarr price list */
 CREATE OR REPLACE VIEW b3_pricelists AS 
 (SELECT
-    "msrp_eur" AS "External Id"
-    "MSRP EUR" AS "Pricelist Name",
+    "eur_msrp" AS "External Id",
+    "EUR MSRP" AS "Pricelist Name",
     "Product" AS "Pricelist Items/Apply On",
     CONCAT("[",p.label,"] ",p.ref) AS "Pricelist Items/Product",
     "Fixed Price" AS "Pricelist Items/Compute Price",
@@ -21,8 +21,8 @@ CREATE OR REPLACE VIEW b3_pricelists AS
 )
 UNION
   SELECT
-    "msrp_usd" AS "External Id"
-    "MSRP USD" AS "Pricelist Name",
+    "usd_msrp" AS "External Id",
+    "USD MSRP" AS "Pricelist Name",
     "Product" AS "Pricelist Items/Apply On",
     CONCAT("[",p.label,"] ",p.ref) AS "Pricelist Items/Product",
     "Fixed Price" AS "Pricelist Items/Compute Price",
