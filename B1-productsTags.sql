@@ -1,3 +1,10 @@
+/*
+The following categories pre-exist in Odoo sor they are not created
+	All
+	All / Deliveries
+	All / Expenses
+	All / Saleable
+*/
 CREATE OR REPLACE VIEW b1_products_tags AS 
   (SELECT "catpro0010" AS "External Id", "All" AS "Parent Category",  "Services" AS Name)
 UNION
