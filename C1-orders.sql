@@ -37,7 +37,7 @@ SELECT
   END AS "fiscal_position_id/name",
   CASE 
     WHEN s.cond_reglement = 19 THEN "45 Days"
-    WHEN s.cond_reglement = 13 THEN "Upfront"
+    WHEN s.cond_reglement = 13 THEN "Immediate Payment"
     WHEN s.cond_reglement = 2  THEN "30 Days"
     ELSE IF(ISNULL(s.cond_reglement),NULL,"30 Days")
   END AS "payment_term_id/name", 

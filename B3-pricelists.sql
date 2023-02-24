@@ -6,18 +6,18 @@ CREATE OR REPLACE VIEW b3_pricelists AS
     "Product" AS "Pricelist Items/Apply On",
     CONCAT("[",p.label,"] ",p.ref) AS "Pricelist Items/Product",
     "Fixed Price" AS "Pricelist Items/Compute Price",
-    MAX(pp.price) AS "Pricelist Items/Fixed Price",
+    MAX(IF(ISNULL(pp.rowid),p.price,pp.price)) AS "Pricelist Items/Fixed Price",
+    p.rowid AS productId,
     "EUR" AS "Currency",
     "Sales Price" AS "Pricelist Items/Based on"
   FROM
-    llx_product_price AS pp
-    LEFT JOIN llx_product AS p ON p.rowid = pp.fk_product
-    WHERE pp.price_level = 3 AND (p.tobuy = 1 OR p.tosell = 1)-- FULL EXPORT
+    llx_product AS p
+    LEFT JOIN llx_product_price AS pp ON p.rowid = pp.fk_product AND pp.price_level = 3
+    WHERE p.tobuy = 1 OR p.tosell = 1 -- FULL EXPORT
     -- WHERE pp.price_level = 3 AND p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- LIGHT EXPORT
   GROUP BY p.rowid
-  HAVING MAX(pp.date_price)
+  HAVING MAX(pp.date_price) -- keep last price
   ORDER BY "Pricelist Items/Product"
-
 )
 UNION
   SELECT
@@ -26,16 +26,18 @@ UNION
     "Product" AS "Pricelist Items/Apply On",
     CONCAT("[",p.label,"] ",p.ref) AS "Pricelist Items/Product",
     "Fixed Price" AS "Pricelist Items/Compute Price",
-    MAX(pp.price * 1.2) AS "Pricelist Items/Fixed Price", -- when price_level = 1
+    MAX(IF(ISNULL(pp.rowid),p.price*1.2,pp.price)) AS "Pricelist Items/Fixed Price",
+    p.rowid AS productId,
     -- pp.price AS "Pricelist Items/Fixed Price",    -- when price_level = 4
     "USD" AS "Currency",
     "Sales Price" AS "Pricelist Items/Based on"
   FROM
-    llx_product_price AS pp
-    LEFT JOIN llx_product AS p ON p.rowid = pp.fk_product
-  WHERE pp.price_level = 4  AND (p.tobuy = 1 OR p.tosell = 1)-- FULL EXPORT
+    llx_product AS p
+    LEFT JOIN llx_product_price AS pp ON p.rowid = pp.fk_product AND pp.price_level = 4
+  WHERE p.tobuy = 1 OR p.tosell = 1 -- FULL EXPORT
   -- WHERE pp.price_level = 4 AND p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- LIGHT EXPORT
   GROUP BY p.rowid
   HAVING MAX(pp.date_price)
   ORDER BY "Pricelist Items/Product";
+
   SELECT * FROM b3_pricelists;
