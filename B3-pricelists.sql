@@ -100,7 +100,7 @@ UNION SELECT
     "All Products"AS "Pricelist Items/Product",
     0.0 AS "Pricelist Items/Fixed Price",
     10.0 AS "item_ids/price_discount"
-  -- EUR Reseller pricelist
+  -- USD Reseller pricelist
   UNION SELECT
     "usd_reseller" AS "External Id",
     "USD Reseller" AS "Pricelist Name",
@@ -113,7 +113,7 @@ UNION SELECT
     "Others Pricelist" AS "Pricelist Items/Based on",
     "All Products"AS "Pricelist Items/Product",
     0.0 AS "Pricelist Items/Fixed Price",
-    20.0 AS "item_ids/price_discount"
-  ;
+    20.0 AS "item_ids/price_discount";
 
-  SELECT * FROM b3_pricelists;
+  
+  -- SELECT * FROM b3_pricelists; -- DO NOT COMPILE !!!!
