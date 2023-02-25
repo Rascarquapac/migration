@@ -12,3 +12,6 @@ https://odooskills.com/blog-odoo-skills-2021.html (OLD)
 
 VIDEO (cours/tutos)
 https://www.youtube.com/@ouiddoo-conseiletformation6646/videos
+
+Free domain name with Odoo
+https://www.odoo.com/documentation/16.0/fr/administration/maintain/domain_names.html#register-a-free-domain-name-with-odoo
