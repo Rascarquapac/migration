@@ -1,5 +1,6 @@
 /* Generate Odoo Price Lists from Dolibarr Pricelist exluding prices not in Dolibarr price list */
 CREATE OR REPLACE VIEW b3_pricelists AS 
+(
 SELECT
     header.a AS "External Id",
     header.b AS "Pricelist Name",
@@ -28,6 +29,7 @@ SELECT
   WHERE p.tobuy = 1 OR p.tosell = 1 -- FULL EXPORT
   GROUP BY p.rowid
   HAVING MAX(pp.date_price)
+)
 UNION SELECT
     header.a AS "External Id",
     header.b AS "Pricelist Name",
@@ -114,6 +116,5 @@ UNION SELECT
     "All Products"AS "Pricelist Items/Product",
     0.0 AS "Pricelist Items/Fixed Price",
     20.0 AS "item_ids/price_discount";
-
   
-  -- SELECT * FROM b3_pricelists; -- DO NOT COMPILE !!!!
+SELECT * FROM b3_pricelists; 
