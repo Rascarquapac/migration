@@ -19,8 +19,9 @@ CREATE OR REPLACE VIEW c1_orders AS
 SELECT
   /* Order fields */
   -- CONCAT("orders",LPAD(cd.rowid,4,0)) AS "External ID",
-  c.ref AS "name",
+  c.ref AS "tempname",
   s.nom AS "partner_id",
+  first_line.ref AS "name",
   -- Dates
   DATE_FORMAT(date(c.date_commande),'%Y-%m-%d') AS "date_order",
   DATE_FORMAT(date(c.date_livraison),'%Y-%m-%d') AS "commitment_date",
