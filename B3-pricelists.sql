@@ -69,7 +69,7 @@ UNION SELECT
     "EUR MSRP" AS "item_ids/base_pricelist_id",
     "All Products" AS "Pricelist Items/Apply On",
     "Formula" AS "Pricelist Items/Compute Price",
-    "Others Pricelist" AS "Pricelist Items/Based on",
+    "Other Pricelist" AS "Pricelist Items/Based on",
     "All Products"AS "Pricelist Items/Product",
     0.0 AS "Pricelist Items/Fixed Price",
     10.0 AS "item_ids/price_discount"
@@ -83,7 +83,7 @@ UNION SELECT
     "EUR MSRP" AS "item_ids/base_pricelist_id",
     "All Products" AS "Pricelist Items/Apply On",
     "Formula" AS "Pricelist Items/Compute Price",
-    "Others Pricelist" AS "Pricelist Items/Based on",
+    "Other Pricelist" AS "Pricelist Items/Based on",
     "All Products"AS "Pricelist Items/Product",
     0.0 AS "Pricelist Items/Fixed Price",
     20.0 AS "item_ids/price_discount"
@@ -98,7 +98,7 @@ UNION SELECT
     "USD MSRP" AS "item_ids/base_pricelist_id",
     "All Products" AS "Pricelist Items/Apply On",
     "Formula" AS "Pricelist Items/Compute Price",
-    "Others Pricelist" AS "Pricelist Items/Based on",
+    "Other Pricelist" AS "Pricelist Items/Based on",
     "All Products"AS "Pricelist Items/Product",
     0.0 AS "Pricelist Items/Fixed Price",
     10.0 AS "item_ids/price_discount"
@@ -112,7 +112,7 @@ UNION SELECT
     "USD MSRP" AS "item_ids/base_pricelist_id",
     "All Products" AS "Pricelist Items/Apply On",
     "Formula" AS "Pricelist Items/Compute Price",
-    "Others Pricelist" AS "Pricelist Items/Based on",
+    "Other Pricelist" AS "Pricelist Items/Based on",
     "All Products"AS "Pricelist Items/Product",
     0.0 AS "Pricelist Items/Fixed Price",
     20.0 AS "item_ids/price_discount";
