@@ -15,16 +15,18 @@ order_line/price_unit      : 10,400.00
 order_line/product_uom_qty : 1.00	
 order_line/is_expense	     : FALSE
 */
-CREATE OR REPLACE VIEW c1_orders AS 
+CREATE OR REPLACE VIEW c1a_orders AS 
 SELECT
   /* Order fields */
-  c.ref AS "tempname",
-  s.nom AS "partner_id",
-  first_line.ref AS "name",
-  first_line.dateorder AS "date_order",
+  CONCAT("sorder",LPAD(c.rowid,4,0)) AS "External ID",
+  c.ref AS "name",
+  s.nom AS "partner_id", -- dont use it as a primary key
+  -- first_line.ref AS "name", --same extID for lines
+  -- first_line.dateorder AS "date_order", --same date for lines
   -- Dates
-  DATE_FORMAT(date(c.date_commande),'%Y-%m-%d') AS "date_tmp",
+  DATE_FORMAT(date(c.date_commande),'%Y-%m-%d') AS "date_order",
   DATE_FORMAT(date(c.date_livraison),'%Y-%m-%d') AS "commitment_date",
+  /* import it with CONTACT (partner) 
   CASE 
     WHEN s.remise_client = 0  THEN IF(country.code IN ("US","CA"),"USD MSRP","EUR MSRP") 
     WHEN s.remise_client = 10 THEN IF(country.code IN ("US","CA"),"USD Major","EUR Major") 
@@ -41,7 +43,7 @@ SELECT
     WHEN s.cond_reglement = 13 THEN "Immediate Payment"
     WHEN s.cond_reglement = 2  THEN "30 Days"
     ELSE IF(ISNULL(s.cond_reglement),NULL,"30 Days")
-  END AS "payment_term_id", 
+  END AS "payment_term_id", */ 
   -- Order Lines
   CONCAT("[",p.label,"] ",p.ref) AS "order_line/product",
   CONCAT(first_line.ref," - [",p.label,"] ",p.ref) AS "order_line/description",
@@ -69,4 +71,4 @@ FROM
   LEFT JOIN llx_societe     AS s ON s.rowid = c.fk_soc
   LEFT JOIN llx_c_country   AS country ON country.rowid = s.fk_pays
 WHERE 1=1;
-SELECT * FROM c1_orders;
+SELECT * FROM c1a_orders;

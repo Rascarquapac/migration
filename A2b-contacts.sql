@@ -22,8 +22,8 @@ SELECT
   IF(country.code IN ("FR","BE"),"fr_FR","en_US") AS "lang",
   IFNULL(societe.url,"") AS "Website Link",
   IFNULL(societe.email,"") AS "Email",
-  societe.client AS "Customer Rank",
-  societe.fournisseur AS "Supplier Rank",
+  societe.client AS "Customer Rank", -- THERE ARE NO 1/0 FOR THIS - DO SOMETHING BETTER - COUNT N° ORDERS
+  societe.fournisseur AS "Supplier Rank", -- EXISTS ALSO IN DOLIBARR, BUT "NULL", ASK PAUL IF INTERESTED
   "" AS "Title",
   "" AS "Job Position",
   TRIM(BOTH ',' FROM
@@ -78,7 +78,7 @@ SELECT
   "FALSE" AS "Is a Company",
   societe.nom AS "Related Company",
   "" AS "Tax ID",
-  "" AS "property_account_position_id", -- To be checked validated by alan
+  "" AS "property_account_position_id", -- validated (by alan)
   "" AS "property_product_pricelist",
   IF(country.code IN ("FR","BE"),"fr_FR","en_US") AS "lang",
   IF(ISNULL(contact.email),"",IFNULL(societe.url,CONCAT("www.",SUBSTRING_INDEX(contact.email,"@",-1)))) AS "Website Link",
