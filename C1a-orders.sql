@@ -18,12 +18,12 @@ order_line/is_expense	     : FALSE
 CREATE OR REPLACE VIEW c1_orders AS 
 SELECT
   /* Order fields */
-  -- CONCAT("orders",LPAD(cd.rowid,4,0)) AS "External ID",
   c.ref AS "tempname",
   s.nom AS "partner_id",
   first_line.ref AS "name",
+  first_line.dateorder AS "date_order",
   -- Dates
-  DATE_FORMAT(date(c.date_commande),'%Y-%m-%d') AS "date_order",
+  DATE_FORMAT(date(c.date_commande),'%Y-%m-%d') AS "date_tmp",
   DATE_FORMAT(date(c.date_livraison),'%Y-%m-%d') AS "commitment_date",
   CASE 
     WHEN s.remise_client = 0  THEN IF(country.code IN ("US","CA"),"USD MSRP","EUR MSRP") 
@@ -54,6 +54,7 @@ FROM
   ( SELECT
 	    c.rowid AS orderId,
       c.ref   AS ref,
+      c.date_commande AS dateorder,
   	  MIN(cd.rowid) AS firstLineId
     FROM
   	  llx_commandedet AS cd 
