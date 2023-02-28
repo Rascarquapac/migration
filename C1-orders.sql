@@ -23,8 +23,8 @@ SELECT
   s.nom AS "partner_id",
   first_line.ref AS "name",
   -- Dates
-  DATE_FORMAT(date(c.date_commande),'%Y-%m-%d') AS "date_order",
-  DATE_FORMAT(date(c.date_livraison),'%Y-%m-%d') AS "commitment_date",
+  IF(ISNULL(c.date_commande),"2019-07-01",DATE_FORMAT(date(c.date_commande),'%Y-%m-%d')) AS "date_order",
+  IF(ISNULL(c.date_livraison),"2019-07-01",DATE_FORMAT(date(c.date_livraison),'%Y-%m-%d')) AS "commitment_date",
   CASE 
     WHEN s.remise_client = 0  THEN IF(country.code IN ("US","CA"),"USD MSRP","EUR MSRP") 
     WHEN s.remise_client = 10 THEN IF(country.code IN ("US","CA"),"USD Major","EUR Major") 
