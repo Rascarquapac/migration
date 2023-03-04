@@ -6,8 +6,20 @@ SELECT
   CONCAT("produc",LPAD(p.rowid,4,0)) AS "External ID",
   p.label AS "Internal Reference",
   p.ref AS "Name",
-  IF(p.tobuy = 0 AND p.tosell = 0,FALSE,TRUE) AS Active,
-  p.tosell AS "Can be Sold",
+  CASE 
+    -- Following products must be set "active" so that old orders can refer to it …
+    WHEN p.label in ("ZZ-DEV-GWYLT","CY-CBL-XLR-TMPRI0","ZZ-CAM-DC-HD","CY-GWY-IO",
+      "ZZ-Quad DAC Analog driver for pan/tilt control","CTR-Dev-0019","ZZ-USB-JST-3D",
+      "ZZ-MICROLENS" ,"ZZ-MNW-PWR","ZZ-NIO") THEN TRUE
+    ELSE IF(p.tobuy = 0 AND p.tosell = 0,FALSE,TRUE) 
+  END AS Active,
+  CASE 
+    -- Following products must be set "Can be Sold" so that old orders can refer to it …
+    WHEN p.label in ("ZZ-DEV-GWYLT","CY-CBL-XLR-TMPRI0","ZZ-CAM-DC-HD","CY-GWY-IO",
+      "ZZ-Quad DAC Analog driver for pan/tilt control","CTR-Dev-0019","ZZ-USB-JST-3D",
+      "ZZ-MICROLENS" ,"ZZ-MNW-PWR","ZZ-NIO") THEN TRUE
+    ELSE  p.tosell
+  END AS "Can be Sold",
   p.tobuy AS "Can be Purchased",
   -- p.note AS "description",
   IFNULL(p.note,"") AS "description",
@@ -51,4 +63,5 @@ WHERE 1 -- FULL EXPORT
 -- WHERE p.rowid IN (126,294,201,200,202,377,118,330,119,391)-- LIGHT EXPORT
 GROUP BY p.rowid
 HAVING MAX(pp.date_price);
+
 SELECT * FROM b2_products;
