@@ -14,8 +14,7 @@
 1. To import directly with status as 'sale orders' (no 'quote' step) <br>
 Activate : dev mode <br>
 go to : settings -> technical -> Actions -> user-defined defaults <br>
-create : Status(sale.order) = "sale" <br>
-
+create : Status(sale.order) = "sale" <br><br>
 2. Required fields SO <br>
 (model:field_name = Field Label) <br>
 sale.order:Company_id = Company <br>
@@ -29,8 +28,7 @@ sale.order.line:customer_lead = Lead Time <br>
 sale.order.line:name = Description <br>
 sale.order.line:order_id = Order Reference <br>
 sale.order.line:price_unit = Unit Price <br>
-sale.order.line:product_uom_qty = Quantity <br>
-
+sale.order.line:product_uom_qty = Quantity <br><br>
 4. NON NULL fields <br>
 display_type IS NULL   --display type is Section or Note, I guess if it is null = lines with product <br>
 OR <br>
