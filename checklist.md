@@ -32,10 +32,10 @@ sale.order.line:product_uom_qty = Quantity <br><br>
 4. NON NULL fields (null error IF) <br>
 display_type IS NULL   --display type is Section or Note, If NULL = produit <br>
 OR <br>
-product_id IS NULL -erreur dans mon commentaire précédent à cet endroit <br> 
-AND price_unit = 0 <br>
+product_id IS NULL --erreur dans mon commentaire précédent à cet endroit. IF NULL then "no product" devrait le faire <br> 
+AND price_unit = 0 -- un if 0 then 1 devrait le faire <br>
 AND product_uom_qty = 0 <br> 
 AND product_uom IS NULL <br>
-AND customer_lead = 0 <br>
-<br>
+AND customer_lead = 0 -- if 0 then 2, mais pour des ventes déjà livrées, pas sûr que ça puisse suffire <br>
+-- du coup, quid des SH ?  ne faidrait-il pas essayer des les importer enmême temps<br>
 source : https://pastebin.com/CFWTXHbw
