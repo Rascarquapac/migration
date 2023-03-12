@@ -1,4 +1,8 @@
-In the PG_SQL to CREATE the table : sales order line
+ <h1> TRANSFÉRÉ SUR CHECKLISD.MD
+
+
+
+In the PG_SQL SCRIPT to CREATE the table sales order line
 COMMENT ON CONSTRAINT sale_order_line_accountable_required_fields ON sale_order_line IS 'CHECK(display_type IS NOT NULL OR (product_id IS NOT NULL AND product_uom IS NOT NULL))';
 COMMENT ON CONSTRAINT sale_order_line_non_accountable_null_fields ON sale_order_line IS 'CHECK(display_type IS NULL OR (product_id IS NULL AND price_unit = 0 AND product_uom_qty = 0 AND product_uom IS NULL AND customer_lead = 0))';`
 
