@@ -30,9 +30,9 @@ sale.order.line:order_id = Order Reference <br>
 sale.order.line:price_unit = Unit Price <br>
 sale.order.line:product_uom_qty = Quantity <br><br>
 4. NON NULL fields (null error IF) <br>
-display_type IS NULL   --display type is Section or Note, I guess if it is null = lines with product <br>
+display_type IS NULL   --display type is Section or Note, If NULL = produit <br>
 OR <br>
-product_id IS NULL  --product_id is Product Variant, non importable there, (it is not my import issue) <br> 
+product_id IS NULL -erreur dans mon commentaire précédent à cet endroit <br> 
 AND price_unit = 0 <br>
 AND product_uom_qty = 0 <br> 
 AND product_uom IS NULL <br>
