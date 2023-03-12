@@ -37,5 +37,5 @@ AND price_unit = 0 -- un if 0 then 1 devrait le faire <br>
 AND product_uom_qty = 0 <br> 
 AND product_uom IS NULL <br>
 AND customer_lead = 0 -- if 0 then 2, mais pour des ventes déjà livrées, pas sûr que ça puisse suffire <br>
--- du coup, quid des SH ?  ne faidrait-il pas essayer des les importer enmême temps<br>
+-- du coup, quid des SH ?  ne faidrait-il pas essayer des les importer en même temps pour éviter les problèmes de 'status'<br>
 source : https://pastebin.com/CFWTXHbw
