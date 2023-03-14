@@ -127,6 +127,6 @@ FROM
       GROUP BY catcont.fk_socpeople
   ) AS categories ON categories.contactid = contact.rowid
   WHERE societe.fk_pays IS NOT NULL
-ORDER BY "External Id";  -- FULL EXPORT (with suppression of Pipedrive phantoms)
+ORDER BY "External Id";  -- FULL EXPORT (with suppression of Pipedrive phantoms) 
   -- WHERE societe.rowid IN(473,246,843,345,624);  -- LIGHT EXPORT
 SELECT * FROM a2b_contacts;

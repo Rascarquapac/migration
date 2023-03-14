@@ -7,7 +7,7 @@ Bien sûr, je suis conçu pour apprendre et m'améliorer constamment en traitant
 
 
 
-Alan Compère
+Alan Compère 
 Sous quelle forme ?juste chat ?
 En tant qu'IA de traitement du langage naturel, je suis capable d'apprendre à partir de tout type de données textuelles. Donc, si vous avez des informations à partager, vous pouvez le faire en utilisant des messages texte dans cette fenêtre de chat ou en envoyant des documents textuels que je peux lire et analyser. Cela peut être des textes, des articles, des livres, des sources d'informations en ligne, des rapports ou tout autre type de données textuelles que vous pensez être pertinentes.
 
