@@ -1,3 +1,4 @@
+-- repenser les WH, il y a des 'locations' lieux à définir avant
 CREATE OR REPLACE VIEW d1_warehouse AS 
 SELECT
   CONCAT("whouse",LPAD(warehouse.rowid,4,0)) AS "External ID",
